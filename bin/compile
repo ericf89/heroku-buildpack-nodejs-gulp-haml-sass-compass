@@ -128,7 +128,7 @@ if [ ! -e $build_dir/Procfile ]; then
 fi
 
 # Testing for gulp
-is_gulpfile_present= [ -f $build_dir/gulpfile.js ];
+is_gulpfile_present= [ -f $build_dir/gulpfile.babel.js ];
 if $is_gulpfile_present; then
   status "Found Gulpfile"
 else
@@ -139,7 +139,8 @@ fi
 (
   if $is_gulpfile_present; then
     status "Running gulp heroku:$NODE_ENV task"
-    $build_dir/node_modules/.bin/gulp heroku
+
+    $build_dir/node_modules/babel/bin/babel.js gulpfile.babel.js | $build_dir/node_modules/.bin/gulp heroku
   fi
 )
 
